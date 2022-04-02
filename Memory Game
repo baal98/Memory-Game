@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Exercise
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> list = Console.ReadLine().Split().ToList();
+            string command = string.Empty;
+            int counter = 0;
+
+            while (command != "end")
+            {
+                counter++;
+                command = Console.ReadLine();
+                if (command == "end")
+                {
+                    Console.WriteLine("Sorry you lose :(");
+                    Console.WriteLine(string.Join(" ", list));
+                    //foreach (var item in list)
+                    //{
+                    //    Console.Write($"{item} ");
+                    //}
+                    break;
+                }
+                List<int> input = command.Split().Select(int.Parse).ToList();
+
+                int element1 = input[0];
+                int element2 = input[1];
+                if (element1 >= list.Count || element2 >= list.Count
+                    || element1 < 0 || element2 < 0 || element1 == element2)
+                {
+                    list.InsertRange(list.Count / 2, new string[] {$"-{counter.ToString()}a", $"-{counter.ToString()}a"});
+                    Console.WriteLine("Invalid input! Adding additional elements to the board");
+                    continue;
+                }
+
+                if (list[element1] == list[element2])
+                {
+                    Console.WriteLine($"Congrats! You have found matching elements - {list[element1]}!");
+                    if (element1 > element2)
+                    {
+                        list.RemoveAt(element1);
+                        list.RemoveAt(element2);
+                    }
+                    else
+                    {
+                        list.RemoveAt(element2);
+                        list.RemoveAt(element1);
+                    }
+                    if (list.Count == 0)
+                    {
+                        Console.WriteLine($"You have won in {counter} turns!");
+                        break;
+                    }
+                    continue;
+                }
+                else
+                {
+                    Console.WriteLine("Try again!");
+                    continue;
+                }
+                
+            }
+
+        }
+    }
+}
